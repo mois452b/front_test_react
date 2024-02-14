@@ -19,22 +19,19 @@ export const ImageInfoComponent = () => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append('image', file);
-    console.log(formData)
 
     try {
       const response = await fetch('http://127.0.0.1:8000/api/images', {
         method: 'POST',
         body: formData
       });
-      console.log(response)
       if (!response.ok) {
-        console.log('error')
+        setImageData(undefined);
         throw new Error('Error al obtener información de la imagen');
       }
 
       const data = await response.json();
       setImageData(data);
-      console.log('fin')
     } catch (error) {
       console.error('Error:', error);
     }
