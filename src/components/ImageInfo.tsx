@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { DisplayImageInfo } from './DisplayImageInfo';
 
-interface ImageInterface {
+export interface ImageInterface {
     name: string;
     url: string;
     size: number;
@@ -11,7 +12,7 @@ interface ImageInterface {
     updated_at: string;
 }
 
-export const ImageInfoComponent = () => {
+export const ImageInfo = () => {
   const [imageData, setImageData] = useState<ImageInterface>();
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,15 +42,7 @@ export const ImageInfoComponent = () => {
     <div>
       <input type="file" accept="image/*" onChange={handleImageUpload} />
       {!imageData && <p>Error al obtener información de la imagen</p>}
-      {imageData && (
-        <div>
-          <h2>Información de la imagen:</h2>
-          <p>Nombre: {imageData.name}</p>
-          <p>Tamaño: {imageData.size} bytes</p>
-          <p>Formato: {imageData.format}</p>
-          <p>Dimensiones: {imageData.width}x{imageData.height}</p>
-        </div>
-      )}
+      {imageData && <DisplayImageInfo imageData={imageData} />}
     </div>
   );
 };
