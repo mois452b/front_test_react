@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Modal from 'react-modal';
-import { DisplayMovieData } from './DisplayMovieData';
+import { MarvelModal } from './MarvelModal';
 
 export interface SeriesAndMoviesInterface {
     id: number;
@@ -16,34 +15,23 @@ export const MarvelMoviesSeries = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [series, setSeries] = useState<SeriesAndMoviesInterface[]>([]);
 
-    useEffect( () => {
+    useEffect(() => {
         fetchMoviesAndSeries();
     }, []);
 
     const fetchMoviesAndSeries = async () => {
         const responseSeries = await fetch('http://127.0.0.1:8000/api/marvels/series');
         const responseMovies = await fetch('http://127.0.0.1:8000/api/marvels/movies');
-        const series = await responseSeries.json();
-        const movies = await responseMovies.json();
+        const seriesData = await responseSeries.json();
+        const moviesData = await responseMovies.json();
 
-        setSeries([...series, ...movies]);
-        console.log(series)
+        setSeries([...seriesData, ...moviesData]);
     };
 
     return (
         <div>
             <button onClick={() => setModalIsOpen(true)}>Obtener películas y series de Marvel</button>
-            <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
-                <h2 className="text-2xl font-bold text-center mb-4">Películas y Series de Marvel</h2>
-                <div className="flex flex-wrap justify-center items-start gap-4">
-                    {
-                        series.map( (item, index) => <DisplayMovieData key={index} movieData={item} /> )
-                    }
-                </div>
-                <button className="bg-red-500 text-white px-4 py-2 mt-4 rounded" onClick={() => setModalIsOpen(false)}>Cerrar</button>
-            </Modal>
-
+            <MarvelModal isOpen={modalIsOpen} setModalIsOpen={setModalIsOpen} series={series} />
         </div>
     );
 };
-
