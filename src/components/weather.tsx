@@ -46,7 +46,12 @@ export const Weather = () => {
 
   return (
     <div>
-        <button onClick={() => setIsOpen(true)}>Ver Climas</button>
+        <button onClick={() => setIsOpen(true)} className='bg-gradient-to-bl from-blue-300 to-blue-500 text-white hover:from-blue-500 hover:to-blue-700 px-4 py-2 rounded-md flex flex-row gap-2'>
+          <span>Ver Climas</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15Z" />
+          </svg>
+        </button>
         <Modal isOpen={isOpen} onRequestClose={()=>setIsOpen(false)}>
         <h2 className="text-2xl font-bold text-center mb-4">Weather</h2>
                 <div className="flex flex-wrap justify-center items-start gap-4">
