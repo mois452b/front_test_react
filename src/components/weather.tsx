@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { gethWeatherData } from '../utils/getWeatherData';
 import { getForecastData } from '../utils/getForecastData';
+import Modal from 'react-modal';
 
 export interface WeatherDataInterface {
     name: string;
@@ -12,6 +13,7 @@ export interface WeatherDataInterface {
 }
 
 export const Weather = () => {
+  const [isOpen, setIsOpen] = useState( false )
   const [weatherData, setWeatherData] = useState<WeatherDataInterface[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,18 +45,31 @@ export const Weather = () => {
   }
 
   return (
-    <div className="container mx-auto">
-        <h1 className="text-3xl font-bold text-center my-8">Weather</h1>
-        {weatherData.map((cityData, index) => (
-            <div key={index} className="my-4 p-4 border border-gray-300 rounded-md">
-            <h2 className="text-xl font-semibold">Weather in {cityData.name}</h2>
-            <p className="mt-2">Temperature: {cityData.temp} °C</p>
-            <p>Weather: {cityData.description}</p>
-            <p>Humidity: {cityData.humidity}%</p>
-            <p>Pressure: {cityData.pressure} hPa</p>
-            </div>
-        ))}
-        </div>
+    <div>
+        <button onClick={() => setIsOpen(true)}>Ver Climas</button>
+        <Modal isOpen={isOpen} onRequestClose={()=>setIsOpen(false)}>
+        <h2 className="text-2xl font-bold text-center mb-4">Weather</h2>
+                <div className="flex flex-wrap justify-center items-start gap-4">
+                    {
+                        weatherData.map( (item, index) => <DisplayWeather key={index} city={item} /> )
+                    }
+                </div>
+                <button className="bg-red-500 text-white px-4 py-2 mt-4 rounded" onClick={() => setIsOpen(false)}>Cerrar</button>
+
+        </Modal>
+      </div>
   );
 };
 
+
+function DisplayWeather ({city}:{city:WeatherDataInterface}){
+
+  return <div className="my-4 p-4 border border-gray-300 rounded-md">
+    <h2 className="text-xl font-semibold">Weather in {city.name}</h2>
+    <p className="mt-2">Temperature: {city.temp} °C</p>
+    <p>Weather: {city.description}</p>
+    <p>Humidity: {city.humidity}%</p>
+    <p>Pressure: {city.pressure} hPa</p>
+  </div>
+
+}

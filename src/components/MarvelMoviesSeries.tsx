@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { DisplayMovieData } from './DisplayMovieData';
 
@@ -21,8 +21,8 @@ export const MarvelMoviesSeries = () => {
     }, []);
 
     const fetchMoviesAndSeries = async () => {
-        const responseSeries = await fetch('http://127.0.0.1:8000/api/marvels/series');
-        const responseMovies = await fetch('http://127.0.0.1:8000/api/marvels/movies');
+        const responseSeries = await fetch(`${import.meta.env.VITE_API_URL}/api/marvels/series`);
+        const responseMovies = await fetch(`${import.meta.env.VITE_API_URL}/api/marvels/movies`);
         const series = await responseSeries.json();
         const movies = await responseMovies.json();
 
